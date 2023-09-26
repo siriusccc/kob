@@ -24,3 +24,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.kob'
+version = '0.7-dev'
+sourceCompatibility = 1.6

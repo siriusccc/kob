@@ -30,9 +30,6 @@ export class GameMap extends Game_Object{
             }, this),
         ];
 
-        this.eye_direction = 0;
-        if(this.id === 1) this.eye_direction = 2;
-        
     }
 
     check_connect(g, sx, sy, tx, ty){
