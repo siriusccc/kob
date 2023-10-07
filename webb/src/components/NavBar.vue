@@ -28,7 +28,7 @@
           </ul>
         </li>
       </ul>
-      <ul class="navbar-nav" v-else>
+      <ul class="navbar-nav" v-else-if="!$store.state.user.is_login">
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'user_account_login' }" role="button">登录</router-link>
         </li>
@@ -43,15 +43,15 @@
 
 <script>
 import { useRoute } from 'vue-router'
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
     setup() {
         const store = useStore();
         const route = useRoute();
         let route_name = computed(() => route.name)
-
+        
         const logout = () => {
           store.dispatch("logout");
         }
