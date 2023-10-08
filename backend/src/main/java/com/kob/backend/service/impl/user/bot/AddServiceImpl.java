@@ -1,6 +1,6 @@
 package com.kob.backend.service.impl.user.bot;
 
-import com.kob.backend.mapper.BotMapper;
+import  com.kob.backend.mapper.BotMapper;
 import com.kob.backend.pojo.Bot;
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.impl.util.UserDetailsImpl;
