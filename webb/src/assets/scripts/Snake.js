@@ -74,31 +74,27 @@ export class Snake extends Game_Object{
         }
     }
 
-    check_tail_increase(){
-        if(this.step <= 10) return true;
-        if(this.step % 3 === 1) return true;
+    check_tail_increase() {  // 检测当前回合，蛇的长度是否增加
+        if (this.step <= 10) return true;
+        if (this.step % 3 === 1) return true;
         return false;
     }
 
     next_step(){
         const d = this.direction;
         this.next_cell = new Cell(this.cells[0].r + this.dr[d], this.cells[0].c + this.dc[d]);
-        this.direction = -1;
+        this.eye_direction = d;
+        this.direction = -1;    
         this.status = "move";
         this.step ++ ;
-        this.eye_direction = d;
 
         const k = this.cells.length;
         for (let i = k; i > 0; i -- ) {
             this.cells[i] = JSON.parse(JSON.stringify(this.cells[i - 1]));
         }
-
-        if(!this.gamemap.check_valid(this.next_cell)){
-            this.status = "die";
-        }
     }
 
-    set_direction(d){
+    set_direction(d) {
         this.direction = d;
     }
 
@@ -106,7 +102,7 @@ export class Snake extends Game_Object{
         if (this.status === 'move') {
             this.update_move();
         }
-        
+
         this.render();
     }
 
