@@ -24,7 +24,7 @@ export class Game_Object{
 
         for(let i in GAME_OBJECTS){
             const obj = Game_Object[i];
-            if(obj == this){
+            if(obj === this){
                 GAME_OBJECTS.splice(i);
                 break;
             }

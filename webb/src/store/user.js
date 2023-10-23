@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-export default({
+export default{
     state: {
         id: "",
         username: "",
@@ -83,4 +83,4 @@ export default({
     },
     modules: {
     }
-  })
+  }

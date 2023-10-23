@@ -17,8 +17,6 @@ public class Bot implements com.kob.botrunningsystem.utils.BotInterface{
         return step % 3 == 1;
     }
 
-
-
     public List<Cell> getCells(int sx, int sy, String steps) {
         steps = steps.substring(1, steps.length() - 1);
         List<Cell> res = new ArrayList<>();

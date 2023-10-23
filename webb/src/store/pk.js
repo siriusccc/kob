@@ -1,4 +1,4 @@
-export default({
+export default{
     state: {
         status: "matching",  
         socket: null,
@@ -39,7 +39,7 @@ export default({
         updateGameObject(state, gameObject) {
             state.gameObject = gameObject;
         },
-        updateLoser(state, loser) {
+        updateLoser(state, loser) { 
             state.loser = loser;
         }
     },
@@ -47,4 +47,4 @@ export default({
     },
     modules: {
     }
-  })
+  }

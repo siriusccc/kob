@@ -111,7 +111,6 @@ div.user-username{
     color: azure;
     padding-top: 2vh;
 }
-
 div.user-select-bot{
     padding-top: 20vh;    
 }

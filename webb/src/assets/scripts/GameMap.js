@@ -79,7 +79,7 @@ export class GameMap extends Game_Object{
 
         for (let r = 0; r < this.rows; r ++ ) {
             for (let c = 0; c < this.cols; c ++ ) {
-                if(g[r][c]){
+                if (g[r][c]) {
                     this.walls.push(new Wall(r, c, this));
                 }
             }
@@ -87,21 +87,46 @@ export class GameMap extends Game_Object{
     }
 
     add_listening_events(){
-        this.ctx.canvas.focus();
-        this.ctx.canvas.addEventListener("keydown", e => {
-            let d = -1;
-            if (e.key === 'w') d = 0;
-            else if (e.key === 'd') d = 1;
-            else if (e.key === 's') d = 2;
-            else if (e.key === 'a') d = 3;
-            
-            if(d >= 0) {
-                this.store.state.pk.socket.send(JSON.stringify({    // 发送信息给后端
-                    event: "move",
-                    direction: d,
-                }));
-            }
-        });
+        if (this.store.state.record.is_record) {
+            let k = 0;
+
+            const [snake0, snake1] = this.snakes;
+            const a_steps = this.store.state.record.a_steps;
+            const b_steps = this.store.state.record.b_steps;
+            const loser = this.store.state.record.record_loser;
+
+            const interval_id = setInterval(() => {
+                if (k >= a_steps.length - 1){
+                    if (loser === "all" || loser === "A") {
+                        snake0.status = "die";
+                    }
+                    if (loser === "all" || loser === "B") {
+                        snake1.status = "die";
+                    }
+                    clearInterval(interval_id);
+                } else {
+                    snake0.set_direction(parseInt(a_steps[k]));
+                    snake1.set_direction(parseInt(b_steps[k]));
+                }
+                k ++;
+            }, 300);
+        } else {
+            this.ctx.canvas.focus();
+            this.ctx.canvas.addEventListener("keydown", e => {
+                let d = -1;
+                if (e.key === 'w') d = 0;
+                else if (e.key === 'd') d = 1;
+                else if (e.key === 's') d = 2;
+                else if (e.key === 'a') d = 3;
+                
+                if(d >= 0) {
+                    this.store.state.pk.socket.send(JSON.stringify({    // 发送信息给后端
+                        event: "move",
+                        direction: d,
+                    }));
+                }
+            });
+        }
     }
 
     start(){
@@ -147,7 +172,6 @@ export class GameMap extends Game_Object{
         for (const snake of this.snakes) {
             snake.next_step();
         }
-
     }
 
     update(){

@@ -2,7 +2,6 @@
     <div class="playground">
         <GameMap />
     </div>
-
 </template>
 
 <script>
