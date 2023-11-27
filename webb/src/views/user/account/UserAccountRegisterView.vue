@@ -15,7 +15,7 @@
                         <label for="confirmedPassword" class="form-label">确认密码</label>
                         <input v-model="confirmedPassword" type="password" class="form-control" id="confirmedPassword" placeholder="请再次输入密码">
                     </div>
-                    <div class="error-message"> {{error_message}} </div>
+                    <div class="error-message">{{ error_message }}</div>
                     <button type="submit" class="btn btn-primary">提交</button>
                 </form>
             </div>
@@ -29,11 +29,11 @@ import { ref } from 'vue'
 import router from '@/router/index'
 import $ from 'jquery'
 
-export default{
-    components:{
+export default {
+    components: {
         ContentField
     },
-    setup(){
+    setup() {
         let username = ref('');
         let password = ref('');
         let confirmedPassword = ref('');
@@ -48,8 +48,8 @@ export default{
                     password: password.value,
                     confirmedPassword: confirmedPassword.value,
                 },
-                success(resp){
-                    if(resp.error_message === "success"){
+                success(resp) {
+                    if (resp.error_message === "success") {
                         router.push({name: "user_account_login"});
                     } else {
                         error_message.value = resp.error_message;
@@ -58,24 +58,23 @@ export default{
             });
         }
 
-        return{
+        return {
             username,
             password,
             confirmedPassword,
             error_message,
-            register
+            register,
         }
     }
-
 }
-
 </script>
 
 <style scoped>
 button {
     width: 100%;
 }
+
 div.error-message {
-    color:red;
+    color: red;
 }
 </style>
