@@ -19,6 +19,7 @@ export default{
     mutations: {
         updateSocket(state, socket) {
             state.socket = socket;
+            console.log("socketSucess",socket);
         },
         updateOpponent(state, opponent) {
             state.opponent_username = opponent.username;

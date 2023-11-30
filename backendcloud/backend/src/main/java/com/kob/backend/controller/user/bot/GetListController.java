@@ -16,7 +16,7 @@ public class GetListController {
     @Autowired
     // 注入刚刚在service实现的接口
     private GetListService getListService;
-    @GetMapping("/user/bot/getlist/")
+    @GetMapping("/api/user/bot/getlist/")
     public List<Bot> getlist(){
         return getListService.getList();
     }

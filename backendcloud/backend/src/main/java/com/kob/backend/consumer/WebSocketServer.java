@@ -156,6 +156,7 @@ public class WebSocketServer {
         JSONObject data = JSONObject.parseObject(message);      // 接收前端传来的信息
         String event = data.getString("event");
         if ("start-matching".equals(event)) {
+            System.out.println("startmatch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             startMatching(data.getInteger("bot_id"));      // 开始匹配
         } else if ("stop-matching".equals(event)) {
             stopMatching();
