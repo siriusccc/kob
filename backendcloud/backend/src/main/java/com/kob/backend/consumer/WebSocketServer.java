@@ -125,7 +125,8 @@ public class WebSocketServer {
     }
 
     private void startMatching(Integer botId){
-        System.out.println("start");
+        System.out.println("startMatching");
+        System.out.println("botId: " + botId);
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("user_id", this.user.getId().toString());
         data.add("rating", this.user.getRating().toString());
@@ -158,6 +159,7 @@ public class WebSocketServer {
         if ("start-matching".equals(event)) {
             System.out.println("startmatch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             startMatching(data.getInteger("bot_id"));      // 开始匹配
+            System.out.println(data);
         } else if ("stop-matching".equals(event)) {
             stopMatching();
         } else if ("move".equals(event)) {
