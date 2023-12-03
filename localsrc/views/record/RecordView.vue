@@ -3,18 +3,30 @@
         <table class="table table-bordered"  style="text-align: center;">
             <thead>
                 <tr>
-                    <th>玩家</th>
-                    <th>rating</th>   
+                    <th>A</th>
+                    <th>B</th>
+                    <th>结果</th>
+                    <th>时间</th>
+                    <th>操作</th>   
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in users" :key="user.id">
+                <tr v-for="record in records" :key="record.record.id">
                     <td>
-                        <img :src="user.photo" alt="" class="record-user-photo">
+                        <img :src="record.a_photo" alt="" class="record-user-photo">
                         &nbsp;
-                        <span class="record-user-username">{{ user.username }}</span>
+                        <span class="record-user-username">{{ record.a_username }}</span>
                     </td>
-                    <td>{{ user.rating }}</td>
+                    <td>
+                        <img :src="record.b_photo" alt="" class="record-user-photo">
+                        &nbsp;
+                        <span class="record-user-username">{{ record.b_username }}</span>
+                    </td>
+                    <td>{{ record.result }}</td>
+                    <td>{{ record.record.createtime }}</td>
+                    <td>
+                        <button @click="open_record_content(record.record.id)" type="button" class="btn btn-secondary">查看录像</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -45,6 +57,7 @@ import ContentField from '../../components/ContentField.vue'
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import $ from 'jquery';
+import router from '../../router/index'
 
 export default{
     components:{
@@ -53,12 +66,12 @@ export default{
     setup() {
         const store = useStore();
         let current_page = 1;
-        let users = ref([]);
-        let total_users = 0;
+        let records = ref([]);
+        let total_records = 0;
         let pages = ref([]);
 
         const update_pages = () => {
-            let max_pages = parseInt(Math.ceil(total_users / 10));
+            let max_pages = parseInt(Math.ceil(total_records / 10));
             let new_pages = [];
             for(let i = current_page - 2; i < current_page + 2; i ++) {
                  if (i >= 1 && i <= max_pages) {
@@ -78,7 +91,7 @@ export default{
                 page = current_page + 1;
             }
 
-            let max_pages = parseInt(Math.ceil(total_users / 10));
+            let max_pages = parseInt(Math.ceil(total_records / 10));
             if (page >= 1 && page <= max_pages) {
                 pull_page(page);
             }
@@ -90,7 +103,7 @@ export default{
         const pull_page = page => {
             current_page = page;               // 当前在第i个页面
             $.ajax({
-                url: "https://www.jeflee.xyz/api/ranklist/getlist/",
+                url: "http://127.0.0.1:3000/api/record/getlist/",
                 data: {
                     page,
                 },
@@ -99,8 +112,8 @@ export default{
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 success(resp) {
-                    users.value = resp.users;
-                    total_users = resp.users_count;
+                    records.value = resp.records;
+                    total_records = resp.records_count;
                     update_pages();
                 },
                 error(resp) {
@@ -111,8 +124,51 @@ export default{
 
         pull_page(current_page);
 
+        const stringto2D = map => {
+            let g = [];
+            for (let i = 0, k = 0; i < 13; i ++ ) {
+                let line = [];
+                for (let j = 0; j < 14; j ++, k ++ ) {
+                    if (map[k] === '0') line.push(0);
+                    else line.push(1);
+                }
+                g.push(line);                    
+            }
+            return g;
+        }
+
+        const open_record_content = recordId => {
+            for (const record of records.value) {
+                if (record.record.id === recordId) {
+                    store.commit("updateIsRecord", true);
+                    store.commit("updateGame", {
+                        map: stringto2D(record.record.map),
+                        a_id: record.record.aid,
+                        a_sx: record.record.asx,
+                        a_sy: record.record.asy,
+                        b_id: record.record.bid,
+                        b_sx: record.record.bsx,
+                        b_sy: record.record.bsy,
+                    });
+                    store.commit("updateSteps", {
+                        a_steps: record.record.asteps,
+                        b_steps: record.record.bsteps,
+                    });
+                    store.commit("updateRecordLoser", record.record.loser);
+                    router.push({
+                        name: "record_content",
+                        params: {
+                            recordId
+                        }
+                    })
+                    break;
+                }
+            }
+        }
+
         return {
-            users,
+            records,
+            open_record_content,
             pages,
             click_page,
         }
