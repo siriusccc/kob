@@ -1,10 +1,10 @@
 <template>
-    <ContentField>
+    <ContentField style="margin-top: 13px;">
         <table class="table table-bordered"  style="text-align: center;">
             <thead>
                 <tr>
-                    <th>玩家</th>
-                    <th>rating</th>   
+                    <th>用户ID</th>
+                    <th>天梯分数</th>   
                 </tr>
             </thead>
             <tbody>
@@ -82,15 +82,12 @@ export default{
             if (page >= 1 && page <= max_pages) {
                 pull_page(page);
             }
-
-
-
         }
 
         const pull_page = page => {
             current_page = page;               // 当前在第i个页面
             $.ajax({
-                url: "https://www.jeflee.xyz/api/ranklist/getlist/",
+                url: "http://localhost:3000/api/ranklist/getlist/",
                 data: {
                     page,
                 },

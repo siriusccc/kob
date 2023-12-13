@@ -14,16 +14,18 @@ import java.util.List;
 
 @Service
 public class GetRankListServiceImpl implements GetRankListService {
-    @Autowired
+    @Autowired   // 要查询user数据库,所以注入userMapper
     private UserMapper userMapper;
 
     @Override
     public JSONObject getList(Integer page) {
-        IPage<User> userIPage = new Page<>(page, 10);
+        IPage<User> userIPage = new Page<>(page, 9);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("rating");
         List<User> users = userMapper.selectPage(userIPage, queryWrapper).getRecords();
+        // 使用JSONObject返回信息到前端
         JSONObject resp = new JSONObject();
+
         for (User user: users) {
             user.setPw("");
         }

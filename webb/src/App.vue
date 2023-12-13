@@ -13,21 +13,6 @@ export default{
     NavBar
   },
   setup(){
-    // $.ajax({
-    //   url: "http://localhost:3000/api/user/account/register/",
-    //   type: "post",
-    //   data: {
-    //     username: "a",
-    //     password: "pc",
-    //     confirmedPassword: "pc",
-    //   },
-    //   success(resp){
-    //     console.log(resp);
-    //   },
-    //   error(resp){
-    //     console.log(resp);
-    //   }
-    // });
   }
 }
 </script>
@@ -38,5 +23,3 @@ body{
   background-size: cover;
 }
 </style>
-
-

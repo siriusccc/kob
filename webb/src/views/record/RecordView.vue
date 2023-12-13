@@ -1,13 +1,13 @@
 <template>
-    <ContentField>
+    <ContentField style="margin-top: 13px;">
         <table class="table table-bordered"  style="text-align: center;">
             <thead>
                 <tr>
-                    <th>A</th>
-                    <th>B</th>
+                    <th>用户1</th>
+                    <th>用户2</th>
                     <th>结果</th>
-                    <th>时间</th>
-                    <th>操作</th>   
+                    <th>对局时间</th>
+                    <th>录像</th>   
                 </tr>
             </thead>
             <tbody>
@@ -95,15 +95,12 @@ export default{
             if (page >= 1 && page <= max_pages) {
                 pull_page(page);
             }
-
-
-
         }
 
         const pull_page = page => {
             current_page = page;               // 当前在第i个页面
             $.ajax({
-                url: "https://www.jeflee.xyz/api/record/getlist/",
+                url: "http://localhost:3000/api/record/getlist/",
                 data: {
                     page,
                 },
@@ -174,12 +171,14 @@ export default{
         }
     }
 }
-
 </script>
 
 <style scoped>
 img.record-user-photo {
     width: 5vh;
     border-radius: 50%;
+}
+div.table-bordered{
+    margin: 400px;
 }
 </style>

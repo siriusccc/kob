@@ -4,10 +4,79 @@
             <div class="col-3">
                 <div class="card" style="margin-top:20px;">
                     <div class="card-body">
-                        <img :src="$store.state.user.photo" alt="" style="width: 100%;">
+                        <img :src="$store.state.user.photo" alt="" style="width: 100%; ">
+                        <!-- <el-form-item>
+                            <el-upload action="http://localhost:3000/api/user/account/uploadpic/" 
+                            :on-success="successUpload"
+                            :headers="headersobj"
+                            >
+                                <el-button size="big" type="primary" style="margin:0 auto; margin-top: 0px;">
+                                    更换头像
+                                </el-button>
+                            </el-upload>
+                        </el-form-item> -->
                     </div>
+                    <!-- <div class="card-body"> -->
+                    
+                        <!-- <form id="form_submit_photo" role="form" action="http://localhost:3000/api/user/account/uploadpic" method="post" enctype="multipart/form-data">
+                            <input type="file" id="fileInput" name="file"><br>
+                            <input type="submit" value="提交">
+                        </form> -->
+                    
+                        <!-- <form id="uploadForm" enctype="multipart/form-data">
+                            <input type="file" id="fileInput" name="file" @change="handleFileChange">
+                            <button type="button" @click="getFileName">Uploadname</button>
+                            <p v-if="selectedFileName">Selected File111: {{ selectedFileName }}</p>
+                        </form> -->
+                        
+                        <!-- <form id="form_submit_photo" class="form-horizontal" role="form" action="/api/user/account/uploadpic/" method="post" enctype="multipart/form-data" @click="change_photo">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="VS0yeFlgqBXH8256Dy7YGIVOsFEhkCWuTEBW3P5GUjoSBc1aTbAtvmdyzgmVdBtZ">
+                            <label class="btn btn-default btn-file" style="width: 100%;">
+                                更新头像
+                            <input id="ingredient_file" type="file" accept="image/*" style="display: none;" name="photo" required>
+                            </label>
+                            <button type="button" @click="getFileName">Upload</button>
+                        </form> -->
+                    <!-- </div> -->
                 </div>
+
+                <div class="card" style="margin-top:10px;">
+                    <!-- <div class="card-body">
+                        <button type="button" class="btn btn-success float-end" style="width: 40%; margin-right:80px;">
+                            更换头像
+                        </button>   
+                    </div> -->
+                    <el-form-item  style="margin:0 auto; margin-top: 0px;">
+                        <el-upload action="http://localhost:3000/api/user/account/uploadpic/" 
+                        :on-success="successUpload"
+                        :headers="headersobj"
+                        >
+                        <!-- <vue-cropper autoCrop img="https://shnhz.github.io/shn-ui/img/Koala.jpg" ref="cropper" centerBox :fixedNumber="[2,1]"/> -->
+                        <!-- <VueCropper
+                            ref="cropperAvatar"
+                            class="avatar-cropper"
+                            style="height: 250px"
+                            :img="imgData"
+                            :output-size="outputSize"
+                            :output-type="'outputType'"
+                            :fixed-number="fixedNumber"
+                            :auto-crop="autoCrop"
+                            :fixed="fixed"
+                            :center-box="true"
+                            :info="false"
+                            :info-true="true"
+                            :fixed-box="true"
+                            :can-move-box="false"
+                            @touchmove.prevent
+                        ></VueCropper> -->
+                            <el-button size="big" type="primary" style="width: 100%; height:100%;">
+                                更换头像
+                            </el-button><br>
+                        </el-upload>
+                    </el-form-item>
+                </div>            
             </div>
+            
             <div class="col-9">
                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">
@@ -31,7 +100,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="add_bot_description" class="form-label">简介</label>
-                                            <textarea v-model="botadd.description" class="form-control" id="add_bot_description" rows="3" placeholder="请输入bot简介"></textarea>
+                                            <textarea v-model="botadd.description" class="form-control" id="add_bot_description" rows="1" placeholder="请输入bot简介"></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="add_bot_code" class="form-label">代码</label>
@@ -40,14 +109,14 @@
                                                 @init="editorInit"
                                                 lang="c_cpp"
                                                 theme="textmate"
-                                                style="height: 300px" 
+                                                style="height: 250px" 
                                                 :options="{
                                                     enableBasicAutocompletion: true, // 启用基本自动完成
                                                     enableSnippets: true,            // 启用代码段
                                                     enableLiveAutocompletion: true,  // 启用实时自动完成
-                                                    fontSize: 18,                    //设置字号
+                                                    fontSize: 18,                    // 设置字号
                                                     tabSize: 4,                      // 标签大小
-                                                    showPrintMargin: false,          //去除编辑器里的竖线
+                                                    showPrintMargin: false,          // 去除编辑器里的竖线
                                                     highlightActiveLine: true,
                                                 }" />
                                         </div>
@@ -151,10 +220,50 @@ import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-chrome';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
+// import 'vue-cropper/dist/index.css'
+// import { VueCropper }  from "vue-cropper";
+
 export default{
     components: {
         VAceEditor,
+        // VueCropper,
     },
+    methods: {
+        handleFileChange(event) {
+            this.selectedFile = event.target.files[0];
+            const filename = this.selectedFile.name;
+            const store = useStore();
+            console.log("handle file:", filename);
+            $.ajax({
+                url: "http://localhost:3000/api/user/account/uploadpic/",
+                type: "post",
+                data:{
+                    filename: filename,
+                    photo: filename,
+                },
+                headers:{
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                success(resp) {
+                    if (resp.error_message === "success") {
+                        console.log("111111111");
+                    } else {
+                        console.log("000000000");
+                    }
+                }
+            })
+        },
+        successUpload(res) {
+            console.log(res);
+            console.log("1111111111111");
+        },  
+    },       
+    data() {
+        return {
+            selectedFile: null,
+        };
+    },
+
     setup(){
         ace.config.set(
             "basePath", 
@@ -171,7 +280,7 @@ export default{
 
         const refresh_bots = () => {
             $.ajax({
-                url: "https://www.jeflee.xyz/api/user/bot/getlist/",
+                url: "http://localhost:3000/api/user/bot/getlist/",
                 type: "get",
                 headers: {
                     Authorization: "Bearer " + store.state.user.token,
@@ -186,7 +295,7 @@ export default{
         const add_bot = () => {
             botadd.error_message = "",
             $.ajax({
-                url: "https://www.jeflee.xyz/api/user/bot/add/",
+                url: "http://localhost:3000/api/user/bot/add/",
                 type: "post",
                 data:{
                     title: botadd.title,
@@ -213,7 +322,7 @@ export default{
         const update_bot = (bot) => {
             bot.error_message = "",
             $.ajax({
-                url: "https://www.jeflee.xyz/api/user/bot/update/",
+                url: "http://localhost:3000/api/user/bot/update/",
                 type: "post",
                 data:{
                     bot_id: bot.id,
@@ -237,7 +346,7 @@ export default{
 
         const remove_bot = (bot) => {
             $.ajax({
-                url: "https://www.jeflee.xyz/api/user/bot/remove/",
+                url: "http://localhost:3000/api/user/bot/remove/",
                 type: "post",
                 data:{
                     bot_id: bot.id,
@@ -253,20 +362,100 @@ export default{
             })
         }
 
+        const change_photo = (bot) => {
+            alert("更换头像");
+            bot.error_message = "",
+            $.ajax({
+                url: "http://localhost:3000/api/user/account/uploadpic/",
+                type: "post",
+                data:{
+                    // photo: photoname,
+                },
+                headers:{
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                success(resp) {
+                    if (resp.error_message === "success") {
+                        refresh_bots();
+                    } else {
+                        bot.error_message = resp.error_message;
+                    }
+                }
+            })
+        }
+
+        const getFileName = () => {
+            const fileInput = document.getElementById('fileInput');
+            const fileName = fileInput.files[0].name;
+            // const fileinfo = fileInput.files;
+
+            console.log('Selected File:', fileName);
+
+            $.ajax({
+                url: "http://localhost:3000/api/user/account/uploadpic/",
+                type: "post",
+                data:{
+                    filename: fileName,
+                    photo: fileName,
+                },
+                headers:{
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                success(resp) {
+                    if (resp.error_message === "success") {
+                        console.log("111111111");
+                    } else {
+                        console.log("000000000");
+                    }
+                }
+            })
+        }
+
+        const headersobj = {
+            "Authorization": 'Bearer ' + store.state.user.token,
+        }
+
         return {
             bots,
             botadd,
             add_bot,
             update_bot,
             remove_bot,
+            change_photo,
+            getFileName,
+            headersobj,
         }
-    }
-}
+    },
 
+
+}
 </script>
 
 <style scoped>
 div.error_message {
     color: red;
 }
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 </style>

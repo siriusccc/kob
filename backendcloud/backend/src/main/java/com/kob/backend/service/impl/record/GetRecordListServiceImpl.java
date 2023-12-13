@@ -26,11 +26,10 @@ public class GetRecordListServiceImpl implements GetRecordListService {
 
     @Override
     public JSONObject getList(Integer page) {
-        IPage<Record> recordIPage = new Page<>(page, 10);
+        IPage<Record> recordIPage = new Page<>(page, 9);
         QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
         List<Record> records = recordMapper.selectPage(recordIPage, queryWrapper).getRecords();
-
         // 使用JSONObject返回信息到前端
         JSONObject resp = new JSONObject();
         // 需要查询头像和用户名，用到user表

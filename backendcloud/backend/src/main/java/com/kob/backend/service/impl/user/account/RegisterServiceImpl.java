@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-
 public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private UserMapper userMapper;

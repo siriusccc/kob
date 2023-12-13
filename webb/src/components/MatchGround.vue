@@ -48,7 +48,7 @@ export default{
 
         const refresh_bots = () => {     // 从云端获取bot
             $.ajax({
-                url: "https://www.jeflee.xyz/api/user/bot/getlist/",
+                url: "http://localhost:3000/api/user/bot/getlist/",
                 type: "get",
                 headers: {
                     Authorization: "Bearer " + store.state.user.token,
