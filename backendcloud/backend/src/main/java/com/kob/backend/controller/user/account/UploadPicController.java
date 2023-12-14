@@ -19,11 +19,11 @@ public class UploadPicController {
     @PostMapping("/api/user/account/uploadpic/")
     public Map<String, String> uploadPic(@RequestParam MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename();
-        System.out.println("上传的图片名：" + filename);
+//        System.out.println("上传的图片名：" + filename);
 
         String picUrl = UploadPic.uploadPic(file);
 
-        System.out.println("地址为:" + picUrl);
+//        System.out.println("地址为:" + picUrl);
         return uploadPicService.uploadPic(picUrl);
     }
 

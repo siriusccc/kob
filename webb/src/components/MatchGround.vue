@@ -64,20 +64,20 @@ export default{
         const click_match_btn = () => {
             if(match_btn_info.value === "开始匹配"){
                 match_btn_info.value = "取消";
-                console.log("match");
-                console.log("before_Send");
+                // console.log("match");
+                // console.log("before_Send");
                 store.state.pk.socket.send(JSON.stringify({
                     event: "start-matching",
                     bot_id: select_bot.value,
                 }));
-                console.log("after_Send");
+                // console.log("after_Send");
             } else {
                 match_btn_info.value = "开始匹配";
-                console.log("cancel_before_Send");
+                // console.log("cancel_before_Send");
                 store.state.pk.socket.send(JSON.stringify({
                     event: "stop-matching",
                 }));
-                console.log("cancel_after_Send");
+                // console.log("cancel_after_Send");
             }
         }
 

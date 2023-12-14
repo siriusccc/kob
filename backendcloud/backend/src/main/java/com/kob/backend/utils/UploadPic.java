@@ -10,7 +10,6 @@ import java.util.UUID;
 
 public class UploadPic {
     public static final String ali_domain = "https://jeff-pic.oss-cn-beijing.aliyuncs.com/";
-
     public static String uploadPic(MultipartFile file) throws IOException {
         // 生成文件名
         String originalFilename = file.getOriginalFilename();

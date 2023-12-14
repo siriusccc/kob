@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>cd</title>
+</head>
+
+<body>
+<div id="countdown" v-if="num === '11'"></div>
+
+<script>
+    var countdownElement = document.getElementById('countdown');
+    var endTime = new Date(); // 获取当前时间
+    endTime.setSeconds(endTime.getSeconds() + 5); // 设置考试结束时间为2小时后
+    let num = 1;
+
+    function updateCountdown() {
+        var now = new Date(); // 获取当前时间
+        var timeDiff = endTime - now; // 计算剩余时间的毫秒数
+
+        if (timeDiff <= 0) {
+            clearInterval(timer); // 倒计时结束，清除定时器
+            countdownElement.innerHTML = "end!";
+        } else {
+            var hours = Math.floor(timeDiff / 3600000); // 计算剩余小时数
+            var minutes = Math.floor((timeDiff % 3600000) / 60000); // 计算剩余分钟数
+            var seconds = Math.floor((timeDiff % 60000) / 1000); // 计算剩余秒数
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+            // var countdownDisplay = hours + ":" + minutes + ":" + seconds;
+            var countdownDisplay = seconds;
+            countdownElement.innerHTML = "cd" + countdownDisplay + "s";
+        }
+    }
+
+    updateCountdown(); // 首次调用更新倒计时
+    var timer = setInterval(updateCountdown, 1000); // 每秒调用一次更新倒计时
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>倒计时示例</title>
+    <link rel="stylesheet" href="flipclock.css">
+    <script src="jquery.min.js"></script>
+    <script src="flipclock.min.js"></script>
+</head>
+<body>
+<h1>2023年11还有：</h1>
+<div class="clock"></div>
+
+<script>
+    // 目标日期
+    var targetDate = new Date("2023-01-01T00:00:00");
+
+    // 创建倒计时实例
+    var clock = $('.clock').FlipClock(targetDate, {
+        countdown: true,
+        clockFace: 'DailyCounter'
+    });
+
+    // 启动倒计时
+    clock.start();
+</script>
+</body>
+</html>
+

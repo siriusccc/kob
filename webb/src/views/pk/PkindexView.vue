@@ -2,8 +2,21 @@
     <PlayGround v-if="$store.state.pk.status === 'playing'" />
     <matchground v-if="$store.state.pk.status === 'matching'" />
     <ResultBoard v-if="$store.state.pk.loser != 'none'"/>
-    <div class="user-color" v-if="$store.state.pk.status === 'playing' && $store.state.user.id == $store.state.pk.a_id">左下角</div>
-    <div class="user-color" v-if="$store.state.pk.status === 'playing' && $store.state.user.id == $store.state.pk.b_id">右上角</div>
+    <div class="user-left" 
+        style="position:absolute; top: 500px; left: 100px;"
+        v-if="$store.state.pk.status === 'playing' && $store.state.user.id == $store.state.pk.a_id"
+        >
+        左下角
+    </div>
+    <div class="user-right" 
+        style="position:absolute; top: 50px; right: 100px;"
+        v-if="$store.state.pk.status === 'playing' && $store.state.user.id == $store.state.pk.b_id"
+        >
+        右上角
+    </div>
+    <div class="countdown" v-if="$store.state.pk.status === 'playing'">
+        <p>还有{{ countdown }}秒</p>
+    </div>
 </template>
 
 <script>
@@ -19,13 +32,54 @@ export default{
         matchground,
         ResultBoard,
     },
+
+    data() {
+        var endTime = new Date(); // 获取当前时间
+        endTime.setSeconds(endTime.getSeconds() + 5); // 设置结束时间为5s后
+        return {
+            targetTime: endTime,
+            countdown: 6,
+            timer: null
+        }
+    },
+
+    mounted() {
+        this.startTimer();
+        window.addEventListener('keydown', this.resetOnKeyPress);
+    },
+    beforeUnmount() {
+        window.removeEventListener('keydown', this.resetOnKeyPress);
+    },
+
+    methods: {
+        startTimer() {
+        this.timer = setInterval(() => {
+            if (this.countdown > 0) {
+                this.countdown--;
+                } else {
+                    clearInterval(this.timer);
+                }
+            }, 1000);
+        },
+        resetTimer() {
+            clearInterval(this.timer);
+            this.countdown = 6;
+            this.startTimer();
+        },
+        resetOnKeyPress(event) {
+            if (event.key === 'w' ||event.key === 'a' || event.key === 's' || event.key === 'd') {
+                this.resetTimer();
+            }
+        },
+    },
+
     setup(){
         const store = useStore();
         const socketUrl = `ws://localhost:3000/websocket/${store.state.user.token}/`;
         store.commit("updateLoser", "none");
         store.commit("updateIsRecord", false);
-
         let socket = null;
+
         onMounted(() => {
             store.commit("updateOpponent", {
                 username:"我的对手",
@@ -51,7 +105,6 @@ export default{
                     }, 200);
                     store.commit("updateGame", data.game);
                 } else if (data.event === "move") {
-                    console.log(data);
                     const game = store.state.pk.gameObject;
                     const [snake0, snake1] = game.snakes;
                     snake0.set_direction(data.a_direction);
@@ -80,16 +133,35 @@ export default{
             socket.close();
             store.commit("updateStatus", "matching");
         })
-    }
+    },  
 }
-
 </script>
 
 <style scoped>
-div.user-color {
-    text-align: center;
+div.user-left {
+    text-align: right;
     color: white;
     font-size: 30px;
     font-weight: 600;
+    /* border:1px solid #F00;  */
+    width:25vw; 
+    height:10vh;
+    padding-top: 5vh;
+}
+div.user-right {
+    text-align: left;
+    color: rgb(78, 77, 77);
+    font-size: 30px;
+    font-weight: 600;
+    /* border:1px solid #F00;  */
+    width:25vw; 
+    height:10vh;
+    padding-top: 5vh;
+}
+div.countdown {
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    font-weight: 500;
 }
 </style>
