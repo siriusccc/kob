@@ -87,7 +87,7 @@ export default{
         const pull_page = page => {
             current_page = page;               // 当前在第i个页面
             $.ajax({
-                url: "http://localhost:3000/api/ranklist/getlist/",
+                url: "https://www.jeflee.xyz/api/ranklist/getlist/",
                 data: {
                     page,
                 },

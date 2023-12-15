@@ -47,7 +47,7 @@
                         </button>   
                     </div> -->
                     <el-form-item  style="margin:0 auto; margin-top: 0px;">
-                        <el-upload action="http://localhost:3000/api/user/account/uploadpic/" 
+                        <el-upload action="https://www.jeflee.xyz/api/user/account/uploadpic/" 
                         :on-success="successUpload"
                         :headers="headersobj"
                         >
@@ -235,7 +235,7 @@ export default{
             const store = useStore();
             console.log("handle file:", filename);
             $.ajax({
-                url: "http://localhost:3000/api/user/account/uploadpic/",
+                url: "https://www.jeflee.xyz/api/user/account/uploadpic/",
                 type: "post",
                 data:{
                     filename: filename,
@@ -280,7 +280,7 @@ export default{
 
         const refresh_bots = () => {
             $.ajax({
-                url: "http://localhost:3000/api/user/bot/getlist/",
+                url: "https://www.jeflee.xyz/api/user/bot/getlist/",
                 type: "get",
                 headers: {
                     Authorization: "Bearer " + store.state.user.token,
@@ -295,7 +295,7 @@ export default{
         const add_bot = () => {
             botadd.error_message = "",
             $.ajax({
-                url: "http://localhost:3000/api/user/bot/add/",
+                url: "https://www.jeflee.xyz/api/user/bot/add/",
                 type: "post",
                 data:{
                     title: botadd.title,
@@ -322,7 +322,7 @@ export default{
         const update_bot = (bot) => {
             bot.error_message = "",
             $.ajax({
-                url: "http://localhost:3000/api/user/bot/update/",
+                url: "https://www.jeflee.xyz/api/user/bot/update/",
                 type: "post",
                 data:{
                     bot_id: bot.id,
@@ -346,7 +346,7 @@ export default{
 
         const remove_bot = (bot) => {
             $.ajax({
-                url: "http://localhost:3000/api/user/bot/remove/",
+                url: "https://www.jeflee.xyz/api/user/bot/remove/",
                 type: "post",
                 data:{
                     bot_id: bot.id,
@@ -366,7 +366,7 @@ export default{
             alert("更换头像");
             bot.error_message = "",
             $.ajax({
-                url: "http://localhost:3000/api/user/account/uploadpic/",
+                url: "https://www.jeflee.xyz/api/user/account/uploadpic/",
                 type: "post",
                 data:{
                     // photo: photoname,
@@ -392,7 +392,7 @@ export default{
             console.log('Selected File:', fileName);
 
             $.ajax({
-                url: "http://localhost:3000/api/user/account/uploadpic/",
+                url: "https://www.jeflee.xyz/api/user/account/uploadpic/",
                 type: "post",
                 data:{
                     filename: fileName,
